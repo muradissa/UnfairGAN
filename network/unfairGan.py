@@ -39,19 +39,17 @@ class Generator(nn.Module):
             self.auam = AuAM(auam_nfeats, act_type=act_type)
         else:
             self.auam = None
-
+        # inX_chs = orginal image , 
         self.aam = AAM(inX_chs=inX_chs, inRM_chs=inRM_chs, inED_chs=inED_chs, nfeats=nfeats,
                        condRM=condRM, condED=condED, act_type=act_type)
 
         modules = []
         for i in range(self.num_blk):
             modules.append(mainBlock(nfeat=nfeats, nDlayer=nDlayer, grRate=grRate, auam=self.auam, block_type=mainblock_type))
+        #A sequential container. Modules will be added to it in the order they are passed in the constructor. Alternatively, an OrderedDict of modules can be passed in. The forward() method of Sequential accepts any input and forwards it to the first module it contains. It then "chains" outputs to inputs sequentially for each subsequent module, finally returning the output of the last module.
         self.main_blk = nn.Sequential(*modules)
 
-        self.out = nn.Sequential(
-                act,
-                nn.Conv2d(nfeats, out_chs, kernel_size=3, stride=1, padding=1)
-            )
+        self.out = nn.Sequential(act,nn.Conv2d(nfeats, out_chs, kernel_size=3, stride=1, padding=1))
 
     def forward(self, x, rm=None, ed=None):
         if rm is not None or ed is not None:
