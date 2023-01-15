@@ -1,7 +1,8 @@
 import cv2
 import numpy as np
 import torch
-from skimage.measure import compare_psnr, compare_ssim
+#from skimage.measure import compare_psnr, compare_ssim 
+from skimage.metrics import peak_signal_noise_ratio ,structural_similarity
 
 
 def batch_psnr_ssim(img, imclean, batch_ssim=True):
@@ -14,9 +15,9 @@ def batch_psnr_ssim(img, imclean, batch_ssim=True):
         im2 = np.array(imgclean[i, :, :, :].transpose((1, 2, 0)) * 255., dtype='uint8')
         im1_y = cv2.cvtColor(im1, cv2.COLOR_BGR2YCR_CB)[:, :, 0]
         im2_y = cv2.cvtColor(im2, cv2.COLOR_BGR2YCR_CB)[:, :, 0]
-        psnrs.append(compare_psnr(im1_y, im2_y))
+        psnrs.append(peak_signal_noise_ratio(im1_y, im2_y))
         if batch_ssim:
-            ssims.append(compare_ssim(im1_y, im2_y))
+            ssims.append(structural_similarity(im1_y, im2_y))
     if batch_ssim:
         return np.array(psnrs), np.array(ssims)
     else:

@@ -35,13 +35,13 @@ print(opt)
 
 if opt.model == 'all':
     dicts = [
-        'rain',
-        'U',
-        'U_D',
-        'U_D_G',
-        'U_D_ReLU_G',
-        'U_D_ReLU_UG',
-        'U_D_XU_UG',
+        # 'rain',
+        # 'U',
+        # 'U_D',
+        # 'U_D_G',
+        # 'U_D_ReLU_G',
+        # 'U_D_ReLU_UG',
+        # 'U_D_XU_UG',
         'UnfairGAN',
         'CycleGAN',
         'Pix2Pix',
@@ -54,10 +54,14 @@ else:
         ]
 
 if opt.testset == 'all':
+    # testsets = [
+    #     'rainH',
+    #     'rainN',
+    #     'rainL',]
     testsets = [
-        'rainH',
-        'rainN',
-        'rainL',]
+        'test_rainH',
+        'test_rainN',
+        'test_rainL',]
 else:
     testsets = [opt.testset]
 
